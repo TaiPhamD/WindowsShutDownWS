@@ -1,5 +1,5 @@
 # WindowsShutDownWS
-This is WebService will host an api end point to shutdown your computer by calling the windows shutdown procedure via a windows DLL:
+This WebService will host an end point on the locally on the computer in order for it to shutdown. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
 
 Binary link: 
