@@ -1,3 +1,5 @@
 *.exe
 *.exe~
 config.txt
+*.dll
+*.zip

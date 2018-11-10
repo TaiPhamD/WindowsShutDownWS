@@ -1,5 +1,5 @@
 # WindowsShutDownWS
-This WebService will host an end point on the locally on the computer in order for it to shutdown. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
+This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
 
 Binary link: 
@@ -23,3 +23,4 @@ run cmd.exe as adminstrator to install this app as a service:
 ```
 sc create ShutdownWebService binPath="C:\your_path_to\shutdown_server.exe"
 ```
+Also remember to place the shutdownDLL in C:\windows\system32 or in the same path as shutdown_server.exe
