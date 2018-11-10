@@ -1,1 +1,1 @@
-sc create ShutdownWebService binPath="C:\Users\peter\go\shutdown_server\shutdown_server.exe"
+sc create ShutdownWebService binPath="C:\shutdown_server\shutdown_server.exe"
