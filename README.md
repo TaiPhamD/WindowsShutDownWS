@@ -19,8 +19,15 @@ For example:
 MycoolPassword
 9999
 ```
-run cmd.exe as adminstrator to install this app as a service:
-```
-sc create ShutdownWebService binPath="C:\your_path_to\shutdown_server.exe"
-```
-Also remember to place the shutdownDLL in C:\windows\system32 or in the same path as shutdown_server.exe
+
+
+MSI installer will install app here:
+```C:\Program Files (x86)\WindowsShutdownWS\``` . The installer will also create a windows service called
+```ShutdownWS``` .
+
+1. configure your ```C:\Program Files (x86)\WindowsShutdownWS\config.txt``` to change your password and web port.  Restart ShutdownWS windows service for it to take affect.
+
+1. must configure windows firewall to allow ```C:\Program Files (x86)\WindowsShutdownWS\shutdown_service.exe``` to listen on the port
+
+1. Must configure your router to forward the port to your computer
+
