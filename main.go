@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/http"
-	"syscall"
 	"os"
-	"bufio"
+	"path/filepath"
+	"syscall"
+
 	"github.com/kardianos/service"
 )
 
@@ -17,16 +19,22 @@ var Mypassword string
 var MyPort string
 var logger service.Logger
 
-
 func (p *program) Start(s service.Service) error {
 	// Start should not block. Do the actual work async.
 	go p.run()
 	return nil
 }
 func (p *program) run() {
-	file, err := os.Open("C:\\shutdown_server\\config.txt")
-    if err != nil {
-        log.Fatal(err)
+
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+
+	file, err := os.Open(dir + "\\config.txt")
+	if err != nil {
+		log.Fatal(err)
 	}
 	scanner := bufio.NewScanner(file)
 	scanner.Scan()
@@ -35,7 +43,7 @@ func (p *program) run() {
 	MyPort = scanner.Text()
 	file.Close()
 
-	fmt.Println("My password is:",Mypassword)
+	fmt.Println("My password is:", Mypassword)
 	err = http.ListenAndServe(":"+MyPort, shutdownHandler{})
 }
 func (p *program) Stop(s service.Service) error {
@@ -43,11 +51,11 @@ func (p *program) Stop(s service.Service) error {
 	return nil
 }
 
-func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {	
+func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	_, pass, _ := r.BasicAuth()
 	fmt.Println(pass)
-	if(pass != Mypassword){
+	if pass != Mypassword {
 		fmt.Println("Password Doesnt match\n")
 		return
 	}
@@ -56,12 +64,12 @@ func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	shutdown := syscall.MustLoadDLL("shutdownDLL")
 	defer shutdown.Release()
 	funcshut := shutdown.MustFindProc("MySystemShutdown")
-	r1,_,err := funcshut.Call()
+	r1, _, err := funcshut.Call()
 	if r1 != 1 {
 		fmt.Println("Failed to initiate shutdown:", err)
 	}
 	fmt.Fprintf(w, "hello, you've hit %s\n", r.URL.Path)
-	
+
 }
 
 func main() {
