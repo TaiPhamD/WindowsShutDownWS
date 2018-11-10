@@ -36,5 +36,5 @@ MSI installer will install app here:
 
 # Testing
 
-Send http request to YOURIP:YOURPORT with basic auth header username:password  (Only password is checked) and your computer should shutodwn
+Send http request to YOURIP:YOURPORT with basic auth header username:password  (Only password is checked) and your computer should shutdown
 
