@@ -4,7 +4,7 @@ https://github.com/TaiPhamD/shutdownDLL
 
 Binary link: 
 - shutdownDLL : https://github.com/TaiPhamD/shutdownDLL/files/2568215/shutdownDLL.zip)
-- webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/files/2568218/shutdown_server.zip
+- webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases/download/1.0.1/shutdown.msi
 
 The configuration for the webservice: 
 place config.txt --> in C:\shutdown_server\config.txt
