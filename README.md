@@ -25,9 +25,15 @@ MSI installer will install app here:
 ```C:\Program Files (x86)\WindowsShutdownWS\``` . The installer will also create a windows service called
 ```ShutdownWS``` .
 
+# Windows Installer
 1. configure your ```C:\Program Files (x86)\WindowsShutdownWS\config.txt``` to change your password and web port.  Restart ShutdownWS windows service for it to take affect.
 
 1. must configure windows firewall to allow ```C:\Program Files (x86)\WindowsShutdownWS\shutdown_service.exe``` to listen on the port
 
 1. Must configure your router to forward the port to your computer
+
+
+# Testing
+
+Send http request to YOURIP:YOURPORT with basic auth header username:password  (Only password is checked) and your computer should shutodwn
 
