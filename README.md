@@ -18,9 +18,7 @@ MSI installer will install app here:
        *config.txt* Syntax:
        your_password
        your_web_service_port
-       ```
        For example:
-       ```
        MycoolPassword
        9999
        ```
