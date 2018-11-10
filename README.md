@@ -1,5 +1,5 @@
 # WindowsShutDownWS
-This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
+This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown. A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
 
 Binary link: 
