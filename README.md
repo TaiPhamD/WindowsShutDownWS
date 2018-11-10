@@ -1,7 +1,10 @@
 # WindowsShutDownWS
 This is WebService will host an api end point to shutdown your computer by calling the windows shutdown procedure via a windows DLL:
-https://github.com/TaiPhamD/shutdownDLL (Binary link: https://github.com/TaiPhamD/shutdownDLL/files/2568215/shutdownDLL.zip)
+https://github.com/TaiPhamD/shutdownDLL 
 
+Binary link: 
+- shutdownDLL : https://github.com/TaiPhamD/shutdownDLL/files/2568215/shutdownDLL.zip)
+- webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/files/2568218/shutdown_server.zip
 
 The configuration for the webservice: 
 place config.txt --> in C:\shutdown_server\config.txt
