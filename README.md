@@ -5,11 +5,6 @@ https://github.com/TaiPhamD/shutdownDLL
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases/download/1.0.1/shutdown.msi
 
-The configuration for the webservice: 
-place config.txt --> in C:\shutdown_server\config.txt
-
-
-
 
 # Windows Installer
 MSI installer will install app here:
