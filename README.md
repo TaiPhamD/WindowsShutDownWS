@@ -3,7 +3,6 @@ This WebService will host an endpoint locally on the computer to listen for an H
 https://github.com/TaiPhamD/shutdownDLL 
 
 Binary link: 
-- shutdownDLL : https://github.com/TaiPhamD/shutdownDLL/files/2568215/shutdownDLL.zip)
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases/download/1.0.1/shutdown.msi
 
 The configuration for the webservice: 
@@ -21,11 +20,13 @@ MycoolPassword
 ```
 
 
+
+# Windows Installer
 MSI installer will install app here:
 ```C:\Program Files (x86)\WindowsShutdownWS\``` . The installer will also create a windows service called
 ```ShutdownWS``` .
 
-# Windows Installer
+
 1. configure your ```C:\Program Files (x86)\WindowsShutdownWS\config.txt``` to change your password and web port.  Restart ShutdownWS windows service for it to take affect.
 
 1. must configure windows firewall to allow ```C:\Program Files (x86)\WindowsShutdownWS\shutdown_service.exe``` to listen on the port
