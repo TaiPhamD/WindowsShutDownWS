@@ -13,8 +13,9 @@ MSI installer will install app here:
 
 
 1. configure your ```C:\Program Files (x86)\WindowsShutdownWS\config.txt``` to change your password and web port.  Restart ShutdownWS windows service for it to load the updated config.txt.
-        *config.txt* Syntax:
+        
        ```
+       *config.txt* Syntax:
        your_password
        your_web_service_port
        ```
