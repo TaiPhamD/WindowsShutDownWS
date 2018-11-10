@@ -8,16 +8,6 @@ Binary link:
 The configuration for the webservice: 
 place config.txt --> in C:\shutdown_server\config.txt
 
-*config.txt* Syntax:
-```
-your_password
-your_web_service_port
-```
-For example:
-```
-MycoolPassword
-9999
-```
 
 
 
@@ -28,6 +18,17 @@ MSI installer will install app here:
 
 
 1. configure your ```C:\Program Files (x86)\WindowsShutdownWS\config.txt``` to change your password and web port.  Restart ShutdownWS windows service for it to take affect.
+        *config.txt* Syntax:
+```
+your_password
+your_web_service_port
+```
+For example:
+```
+MycoolPassword
+9999
+```
+
 
 1. must configure windows firewall to allow ```C:\Program Files (x86)\WindowsShutdownWS\shutdown_service.exe``` to listen on the port
 
