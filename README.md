@@ -5,14 +5,6 @@ https://github.com/TaiPhamD/shutdownDLL
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases
 
-
-# Manual compile/install
-
-1. run "go build" command to create the exe
-1. setup config.txt in the same path as the compiled .exe
-1. Create windows service to launch the compiled .exe ( see create_service_example.bat)
-1. Compile [shutdown.dll](https://github.com/TaiPhamD/shutdownDLL) and place it in the same directory as the WindowsShutdownWS.exe
-
 # Windows Installer from release download
 MSI installer will install app here:
 ```C:\Program Files (x86)\WindowsShutdownWS\``` . The installer will also create a windows service called
@@ -36,7 +28,7 @@ MSI installer will install app here:
 1. Must configure your router to forward the port to your computer
 
 
-# Testing
+# Testing before you connect to IFTTT service
 
 Send http request to YOURIP:YOURPORT with the body as JSON
 
@@ -45,7 +37,24 @@ Send http request to YOURIP:YOURPORT with the body as JSON
   "Password":"Yourpassword"
 }
 ```
-# creating your own .MSI installer using https://github.com/wixtoolset
+
+# IFTTT example
+
+Please read from www.ifttt.com to learn more about IFTTT. An example, integrating Google Assistant with this application via IFTTT Webhook configuration shown here:
+
+
+
+
+# Build from Source 
+
+## Manual compile/install
+
+1. run "go build" command to create the exe
+1. setup config.txt in the same path as the compiled .exe
+1. Create windows service to launch the compiled .exe ( see create_service_example.bat)
+1. Compile [shutdown.dll](https://github.com/TaiPhamD/shutdownDLL) and place it in the same directory as the WindowsShutdownWS.exe
+
+## creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
 
 1. Install wixtoolset
 1. Compile:
@@ -60,6 +69,5 @@ Send http request to YOURIP:YOURPORT with the body as JSON
    candle shutdown.wxs
    light shutdown.wixobj
 ```
-
-1. You should now have a .msi installer!
+ You should now have a .msi installer!
 
