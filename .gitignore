@@ -3,3 +3,6 @@
 config.txt
 *.dll
 *.zip
+*.msi
+*.wixobj
+*.wixpdb

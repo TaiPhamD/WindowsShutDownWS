@@ -6,7 +6,14 @@ Binary link:
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases/download/1.0.1/shutdown.msi
 
 
-# Windows Installer
+# Manual compile/install
+
+1. run "go build" command to create the exe
+2. setup config.txt in the same path as the compiled .exe
+3. Create windows service to launch the compiled .exe ( see create_service_example.bat)
+
+
+# Windows Installer from release download
 MSI installer will install app here:
 ```C:\Program Files (x86)\WindowsShutdownWS\``` . The installer will also create a windows service called
 ```ShutdownWS``` .
@@ -31,5 +38,26 @@ MSI installer will install app here:
 
 # Testing
 
-Send http request to YOURIP:YOURPORT with basic auth header username:password  (Only password is checked) and your computer should shutdown
+Send http request to YOURIP:YOURPORT with the body as JSON
+
+```
+{
+  "Password":"Yourpassword"
+}
+
+# creating your own .MSI installer using https://github.com/wixtoolset
+
+1. Install wixtoolset
+2. Compile:
+   - shutdown.dll
+   - WindowsShutDownWS.exe
+3. Create a config.txt based on the template
+4. Copy results from 2 and 3 above to main root of this repo
+5. open CMD.exe and set path=%path%;C:\path_to_\wix311-binaries
+6. Run WIX command line to generate .msi
+```
+candle shutdown.wxs
+light shutdown.wixobj
+```
+7. You should now have a .msi installer!
 
