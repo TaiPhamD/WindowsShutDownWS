@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,23 +20,39 @@ var Mypassword string
 var MyPort string
 var logger service.Logger
 
+type auth_struct struct {
+	Password string
+}
+
 func (p *program) Start(s service.Service) error {
 	// Start should not block. Do the actual work async.
 	go p.run()
 	return nil
 }
 func (p *program) run() {
-
+	//Get file path from where the exe is launched
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	log.Print(dir)
 
+	//set up log file
+	filelog, errlog := os.OpenFile(dir+"\\info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if errlog != nil {
+		log.Fatal(errlog)
+	}
+
+	defer filelog.Close()
+
+	log.SetOutput(filelog)
+
+	//Read in configuration file
 	file, err := os.Open(dir + "\\config.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	scanner := bufio.NewScanner(file)
 	scanner.Scan()
 	Mypassword = scanner.Text()
@@ -43,7 +60,7 @@ func (p *program) run() {
 	MyPort = scanner.Text()
 	file.Close()
 
-	fmt.Println("My password is:", Mypassword)
+	log.Print("My password is:", Mypassword)
 	err = http.ListenAndServe(":"+MyPort, shutdownHandler{})
 }
 func (p *program) Stop(s service.Service) error {
@@ -53,10 +70,17 @@ func (p *program) Stop(s service.Service) error {
 
 func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	_, pass, _ := r.BasicAuth()
-	fmt.Println(pass)
-	if pass != Mypassword {
-		fmt.Println("Password Doesnt match\n")
+	decoder := json.NewDecoder(r.Body)
+	var jsonAuth auth_struct
+
+	err := decoder.Decode(&jsonAuth)
+	if err != nil {
+		log.Print("error decoding JSON\n")
+		return
+	}
+
+	if jsonAuth.Password != Mypassword {
+		log.Print("Password from JSON doesn't match\n")
 		return
 	}
 	//compile the shutdownDLL from here:
@@ -66,10 +90,10 @@ func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	funcshut := shutdown.MustFindProc("MySystemShutdown")
 	r1, _, err := funcshut.Call()
 	if r1 != 1 {
-		fmt.Println("Failed to initiate shutdown:", err)
+		log.Print("Failed to initiate shutdown:", err)
 	}
-	fmt.Fprintf(w, "hello, you've hit %s\n", r.URL.Path)
-
+	fmt.Fprintf(w, "successfully shutdown!\n")
+	log.Print("sucessfully shutdown!")
 }
 
 func main() {
@@ -96,4 +120,6 @@ func main() {
 	if err != nil {
 		logger.Error(err)
 	}
+
+	log.Print("Started service\n")
 }
