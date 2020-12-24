@@ -61,6 +61,7 @@ Please read from www.ifttt.com to learn more about IFTTT.  Some examples of inte
  - [restart to Mac/Windows applet](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE_RESTART.jpg)
  - [turn on PC -Wake on Lan applet](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE_TURN_ON.jpg)
     - Also if you want to automatically turn on your computer by using Wake on Lan service please see this [repository](https://github.com/TaiPhamD/WOLWebService)
+       - You probably want to host this on a dedicated server like a raspberry pi
     - If you are using IntelMausi kext follow this to enable WOL: https://github.com/Mieze/IntelMausiEthernet/issues/17#issuecomment-424290662
 
 # Build from Source 
