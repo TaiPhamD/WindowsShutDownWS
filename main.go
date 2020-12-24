@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"syscall"
+	"unsafe"
 
 	"github.com/kardianos/service"
 )
@@ -21,7 +23,9 @@ var MyPort string
 var logger service.Logger
 
 type auth_struct struct {
-	Password string
+	Password   string
+	Mode       uint32
+	Ingredient string
 }
 
 func (p *program) Start(s service.Service) error {
@@ -73,9 +77,13 @@ func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var jsonAuth auth_struct
 
+	//body, _ := ioutil.ReadAll(r.Body)
+	//log.Print("Info: raw body, %s", body)
+
 	err := decoder.Decode(&jsonAuth)
 	if err != nil {
 		log.Print("error decoding JSON\n")
+		log.Print(r.Body)
 		return
 	}
 
@@ -83,12 +91,31 @@ func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Print("Password from JSON doesn't match\n")
 		return
 	}
-	//compile the shutdownDLL from here:
-	//and place it in c:\Windows\system32
+
+	// Load DLL function for windows api
 	shutdown := syscall.MustLoadDLL("shutdownDLL")
 	defer shutdown.Release()
 	funcshut := shutdown.MustFindProc("MySystemShutdown")
-	r1, _, err := funcshut.Call()
+
+	log.Print("calling shutdown mode: ", jsonAuth.Mode)
+	log.Print("Ingredient : ", jsonAuth.Ingredient)
+
+	//Call the right shutdown mode based on ingredient and mode
+
+	var effectiveMode = jsonAuth.Mode
+
+	if effectiveMode != 0 {
+		//We are trying to do a restart so need to check ingredient
+		if strings.ToUpper(jsonAuth.Ingredient) == "WINDOWS" {
+			//we are restarting to windows
+			effectiveMode = 1
+		} else {
+			//we are restarting to mac os if it's not windows
+			effectiveMode = 2
+		}
+	}
+
+	r1, _, err := funcshut.Call(uintptr(unsafe.Pointer(&effectiveMode)))
 	if r1 != 1 {
 		log.Print("Failed to initiate shutdown:", err)
 	}
