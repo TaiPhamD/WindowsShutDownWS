@@ -56,7 +56,7 @@ Please read from www.ifttt.com to learn more about IFTTT. An example, integratin
 
 ## creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
 
-1. Install wixtoolset
+1. Install wixtoolset (remember the bin path since you will use it later)
 1. Compile:
    - shutdown.dll
    - WindowsShutDownWS.exe
