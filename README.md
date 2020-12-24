@@ -1,6 +1,8 @@
 # WindowsShutDownWS
-This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown. A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
+This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown or restart. A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
+
+Currently the restart UEFI BootOrder ID is hardcoded to set 0x0080 for MacOS and 0x0000 for Windows. Please edit [this](https://github.com/TaiPhamD/shutdownDLL/blob/3e484fe36e3a3006a17bd99db79ff02f418547c7/shutdownDLL.cpp#L47) if you want to set a diffrent BootOrder ID. I will make this into a configurable item later.
 
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases
@@ -59,7 +61,7 @@ Please read from www.ifttt.com to learn more about IFTTT.  Some examples of inte
 1. Create windows service to launch the compiled .exe ( see create_service_example.bat)
 1. Compile [shutdown.dll](https://github.com/TaiPhamD/shutdownDLL) and place it in the same directory as the WindowsShutdownWS.exe
 
-## creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
+## Extra: creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
 
 1. Install wixtoolset (remember the bin path since you will use it later)
 1. Compile:
