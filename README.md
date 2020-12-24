@@ -1,8 +1,8 @@
 # WindowsShutDownWS
-This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown. A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
+This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown or restart (including changing UEFI BootOrder id). A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
 
-Also if you want to automatically turn on your computer by using Wake on Lan service please see this [repository](https://github.com/TaiPhamD/WOLWebService)
+Currently the restart UEFI BootOrder ID is hardcoded to set 0x0080 for MacOS and 0x0000 for Windows. Please edit [this](https://github.com/TaiPhamD/shutdownDLL/blob/3e484fe36e3a3006a17bd99db79ff02f418547c7/shutdownDLL.cpp#L47) if you want to set a diffrent BootOrder ID. I will make this into a configurable item later.
 
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases
@@ -44,10 +44,13 @@ Send http request to YOURIP:YOURPORT with the body as JSON
 
 # IFTTT example
 
-Please read from www.ifttt.com to learn more about IFTTT. An example, integrating Google Assistant with this application via IFTTT Webhook configuration shown [here](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE.jpg)
+Please read from www.ifttt.com to learn more about IFTTT.  Some examples of integrating Google Assistant with this application via IFTTT Webhook configuration shown
 
-
-
+ - [shutdown applet](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE.jpg)
+ - [restart to Mac/Windows applet]()
+ - [turn on PC -Wake on Lan applet]()
+    - Also if you want to automatically turn on your computer by using Wake on Lan service please see this [repository](https://github.com/TaiPhamD/WOLWebService)
+    - If you are using IntelMausi kext follow this to enable WOL: https://github.com/Mieze/IntelMausiEthernet/issues/17#issuecomment-424290662
 
 # Build from Source 
 
@@ -58,7 +61,7 @@ Please read from www.ifttt.com to learn more about IFTTT. An example, integratin
 1. Create windows service to launch the compiled .exe ( see create_service_example.bat)
 1. Compile [shutdown.dll](https://github.com/TaiPhamD/shutdownDLL) and place it in the same directory as the WindowsShutdownWS.exe
 
-## creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
+## Extra: creating your own .MSI installer using https://github.com/wixtoolset if you want to distribute it using .MSI
 
 1. Install wixtoolset (remember the bin path since you will use it later)
 1. Compile:
