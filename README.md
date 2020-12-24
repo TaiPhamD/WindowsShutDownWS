@@ -2,7 +2,18 @@
 This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown or restart (including changing UEFI BootOrder id). A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL:
 https://github.com/TaiPhamD/shutdownDLL 
 
-Currently the restart UEFI BootOrder ID is hardcoded to set 0x0080 for MacOS and 0x0000 for Windows. Please edit [this](https://github.com/TaiPhamD/shutdownDLL/blob/3e484fe36e3a3006a17bd99db79ff02f418547c7/shutdownDLL.cpp#L47) if you want to set a diffrent BootOrder ID. I will make this into a configurable item later.
+Currently the restart command will change UEFI BootOrder ID based on Google Assistant Ingredient. However, the BootOrder ID is hardcoded to set 0x0080 for MacOS and 0x0000 for Windows. Please edit [this](https://github.com/TaiPhamD/shutdownDLL/blob/3e484fe36e3a3006a17bd99db79ff02f418547c7/shutdownDLL.cpp#L47) if you want to set a diffrent BootOrder ID. I will make this into a configurable item later. 
+
+You can use Linux efibootmgr --verbose to figure out your bootID for example on my computer I have 0x0000 for Windows and 0x0080 for MacOS:
+
+```
+efibootmgr --verbose
+Timeout: 1 seconds
+BootOrder: 0080
+Boot0000* Windows Boot Manager	HD(2,GPT,3df99478-b7c8-4c1b-b16c-d994132ddd6a,0x40800,0x2b800)/File(\EFI\Microsoft\Boot\bootmgfw.efi)WINDOWS.........x...B.C.D.O.B.J.E.C.T.=.{.9.d.e.a.8.6.2.c.-.5.c.d.d.-.4.e.7.0.-.a.c.c.1.-.f.3.2.b.3.4.4.d.4.7.9.5.}...o................
+Boot0080* Mac OS X	PciRoot(0x0)/Pci(0x1d,0x0)/Pci(0x0,0x0)//HD(2,GPT,4ba9ab95-5cd6-4388-aaa0-5ca49161ca57,0x64028,0x3b97d260)/VenMedia(be74fcf7-0b7c-49f3-9147-01f4042e6842,6ff82f809160a14780cbbf4d161cbff1)/File(\D6C224AB-6106-4CC1-889A-BF0F17E0EA53\System\Library\CoreServices\boot.efi)
+Boot0081* Mac OS X	PciRoot(0x0)/Pci(0x1d,0x0)/Pci(0x0,0x0)//HD(2,GPT,4ba9ab95-5cd6-4388-aaa0-5ca49161ca57,0x64028,0x3b97d260)/VenMedia(be74fcf7-0b7c-49f3-9147-01f4042e6842,6ff82f809160a14780cbbf4d161cbff1)/File(\5E921AB6-7A04-442E-BFB5-052A0469E665\System\Library\CoreServices\boot.efi)
+```
 
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases
