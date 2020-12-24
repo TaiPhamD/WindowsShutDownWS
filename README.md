@@ -35,6 +35,8 @@ Send http request to YOURIP:YOURPORT with the body as JSON
 ```
 {
   "Password":"Yourpassword"
+  "Mode": 0 //0: shutdown else any other number will call shutdown DLL based on Ingredient
+  "Ingredient: "text phrase" This is the text ingredient that will feed into shutdown DLL. It will call mode 1 if text phrase is "Windows" else it will call mode 2
 }
 ```
 
