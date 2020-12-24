@@ -44,10 +44,11 @@ Send http request to YOURIP:YOURPORT with the body as JSON
 
 # IFTTT example
 
-Please read from www.ifttt.com to learn more about IFTTT. An example, integrating Google Assistant with this application via IFTTT Webhook configuration shown [here](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE.jpg)
+Please read from www.ifttt.com to learn more about IFTTT.  Some examples of integrating Google Assistant with this application via IFTTT Webhook configuration shown
 
-
-
+ - [shutdown applet](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/IFTTT_EXAMPLE.jpg)
+ - [restart to Mac/Windows applet]()
+ - [turn on PC -Wake on Lan applet]()
 
 # Build from Source 
 
