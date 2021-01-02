@@ -6,3 +6,4 @@ config.txt
 *.msi
 *.wixobj
 *.wixpdb
+build
