@@ -43,7 +43,7 @@ void changeBootAndRestart(uint16_t *data)
   SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
   // Update UEFI
   const int bootOrderBytes = 2;
-  const TCHAR bootOrderName[] = TEXT("BootOrder");
+  const TCHAR bootOrderName[] = TEXT("BootNext");
   DWORD bootOrderAttributes = 7; // VARIABLE_ATTRIBUTE_NON_VOLATILE |
                                  // VARIABLE_ATTRIBUTE_BOOTSERVICE_ACCESS |
                                  // VARIABLE_ATTRIBUTE_RUNTIME_ACCESS

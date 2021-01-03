@@ -1,7 +1,7 @@
 # WindowsShutDownWS
-This WebService will host an endpoint locally on the computer to listen for an HTTPS request/post to initiate windows shutdown or restart (including changing UEFI BootOrder id). A good example would to use IFTTT webhook to trigger an HTTPS post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL.
+This WebService will host an endpoint locally on the computer to listen for an HTTPS request/post to initiate windows shutdown or restart (including changing UEFI BootNext id). A good example would to use IFTTT webhook to trigger an HTTPS post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL.
 
-Currently the restart command will change UEFI BootOrder ID based on Google Assistant Ingredient. The mapping of the Ingrediant and BootOrder ID is based on config.json. You can run uefiscanner.exe to figure out your BootOrderID and use decimal ID (not hex) when configuring JSON. You can also use Linux efibootmgr --verbose to figure out your bootID however remember to convert to Decimal from hex.
+Currently the restart command will change UEFI BootNext ID based on Google Assistant Ingredient. The mapping of the Ingrediant and BootNext ID is based on config.json. You can run uefiscanner.exe to figure out your BootNext and use decimal ID (not hex) when configuring JSON. You can also use Linux efibootmgr --verbose to figure out your bootID however remember to convert to Decimal from hex.
 
 Binary link: 
 - webserverApp : https://github.com/TaiPhamD/WindowsShutDownWS/releases
@@ -31,7 +31,7 @@ Send https request to YOURIP:YOURPORT with the body as JSON
 {
   "Password":"Yourpassword"
   "Mode": 0 //0: shutdown else any other number will initiate a restart based on Ingredient
-  "Ingredient: "text phrase" This is the text ingredient that will feed into shutdown DLL for restart. It will set UEFI BootOrder id based on the {OS,BootID} dictionary defined in config.json
+  "Ingredient: "text phrase" This is the text ingredient that will feed into shutdown DLL for restart. It will set UEFI BootNext id based on the {OS,BootID} dictionary defined in config.json
 }
 ```
 
