@@ -4,6 +4,17 @@ FILE(GLOB MyHeaders ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 FILE(GLOB MySources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 # Create a target for the library
 ADD_LIBRARY(shutdownDLL SHARED ${MySources} ${MyHeaders})
-set_target_properties(shutdownDLL PROPERTIES LINKER_LANGUAGE CXX)
+
+
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "advapi32.lib")
+
+
+target_link_libraries(shutdownDLL user32.lib  advapi32.lib)
+set_target_properties(shutdownDLL 
+                    PROPERTIES 
+                    LINKER_LANGUAGE CXX
+                    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist"
+                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist")
 
 

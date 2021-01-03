@@ -16,8 +16,8 @@ import (
 type shutdownHandler struct{}
 type program struct{}
 
-var ShutDownFunc interface{}
-var RestartFunc interface{}
+var ShutDownFunc *syscall.Proc
+var RestartFunc *syscall.Proc
 
 var Mypassword string
 var MyPort string

@@ -1,13 +1,10 @@
-﻿// shutdownDLL.cpp : Defines the exported functions for the DLL application.
+// shutdownDLL.cpp : Defines the exported functions for the DLL application.
 // code adopted from: https://serverfault.com/questions/813695/how-do-i-stop-windows-10-install-from-modifying-bios-boot-settings
-
-#include "stdafx.h"
-
 
 #include <windows.h>
 #include <iomanip>
-#pragma comment(lib, "user32.lib")
-#pragma comment(lib, "advapi32.lib")
+//#pragma comment(lib, "user32.lib")
+//#pragma comment(lib, "advapi32.lib")
 
 
 struct CloseHandleHelper {
@@ -28,7 +25,6 @@ BOOL SetPrivilege(HANDLE process, LPCWSTR name, BOOL on) {
   return AdjustTokenPrivileges(token, FALSE, &tp, sizeof(tp), NULL, NULL);
 }
 
-
 /**Shutdown function**/
 void startShutdown() {
   // Get required shutdown priviledges
@@ -37,7 +33,6 @@ void startShutdown() {
   InitiateSystemShutdownEx(NULL, NULL, 0, FALSE, FALSE, 0);
 
 }
-
 
 void changeBootAndRestart(uint16_t *data) {
 
