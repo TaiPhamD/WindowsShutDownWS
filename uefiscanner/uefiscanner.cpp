@@ -23,16 +23,12 @@ BOOL SetPrivilege(HANDLE process, LPCWSTR name, BOOL on) {
   return AdjustTokenPrivileges(token, FALSE, &tp, sizeof(tp), NULL, NULL);
 }
 
-int main()
-{
 
-  SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
-
-  const int BUFFER_SIZE = 4096;
+void printUEFI(const LPCWSTR &globalGuid) {
+ const int BUFFER_SIZE = 4096;
   BYTE bootOrderBuffer[BUFFER_SIZE];
   DWORD bootOrderLength = 0;
   const TCHAR bootOrderName[] = TEXT("BootOrder");
-  const TCHAR globalGuid[] = TEXT("{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}");
   DWORD bootOrderAttributes = 7; //VARIABLE_ATTRIBUTE_NON_VOLATILE | VARIABLE_ATTRIBUTE_BOOTSERVICE_ACCESS | VARIABLE_ATTRIBUTE_RUNTIME_ACCESS
 
   bootOrderLength = GetFirmwareEnvironmentVariableEx(
@@ -41,7 +37,7 @@ int main()
   if (bootOrderLength == 0) {
     std::cout << "Failed getting BootOrder with error " << GetLastError()
               << std::endl;
-    return 1;
+    return;
   }
  
   /*
@@ -91,6 +87,33 @@ int main()
       // options you find, and the fact that you found them
     }
   }
+
+}
+
+
+int main()
+{
+
+  SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
+
+  //GUID ID obtained from : https://github.com/acidanthera/OpenCorePkg/blob/2f1043d989a8dc86afb3330c29fad3414c843598/User/Library/UserGlobalVar.c
+
+  //Print boot info for GLOBAL UEFI GUID
+  //{ 0x8BE4DF61, 0x93CA, 0x11D2, { 0xAA, 0x0D, 0x00, 0xE0, 0x98, 0x03, 0x2B, 0x8C }};
+  std::cout << "Global Boot GUID" << std::endl;
+  printUEFI(TEXT("{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}"));
+
+
+  //Print boot info for APPLE UEFI GUID
+  //{ 0X7C436110, 0XAB2A, 0X4BBB, { 0XA8, 0X80, 0XFE, 0X41, 0X99, 0X5C, 0X9F, 0X82 }};
+  std::cout << "Apple Boot GUID" << std::endl;
+  printUEFI(TEXT("{7C436110-AB2A-4BBB-A880-FE41995C9F82}"));
+
+  
+  //Print boot info for OC UEFI GUID
+  //{ 0x4D1FDA02, 0x38C7, 0x4A6A, { 0x9C, 0xC6, 0x4B, 0xCC, 0xA8, 0xB3, 0x01, 0x02 }};
+  std::cout << "OC Boot GUID" << std::endl;
+  printUEFI(TEXT("{4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102}"));    
 
   // shutdown was successful
   return TRUE;

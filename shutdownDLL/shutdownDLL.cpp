@@ -44,16 +44,27 @@ void changeBootAndRestart(uint16_t *data)
   // Update UEFI
   const int bootOrderBytes = 2;
   const TCHAR bootOrderName[] = TEXT("BootOrder");
-  const TCHAR globalGuid[] = TEXT("{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}");
   DWORD bootOrderAttributes = 7; // VARIABLE_ATTRIBUTE_NON_VOLATILE |
                                  // VARIABLE_ATTRIBUTE_BOOTSERVICE_ACCESS |
                                  // VARIABLE_ATTRIBUTE_RUNTIME_ACCESS
 
+  //Set Global UEFI GUID
+  const TCHAR globalGuid[] = TEXT("{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}");
   SetFirmwareEnvironmentVariableEx(bootOrderName,
                                    globalGuid,
                                    data,
                                    bootOrderBytes,
                                    bootOrderAttributes);
+
+  //Set OC UEFI GUID
+  const TCHAR OCGuid[] = TEXT("{4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102}");
+  SetFirmwareEnvironmentVariableEx(bootOrderName,
+                                   OCGuid,
+                                   data,
+                                   bootOrderBytes,
+                                   bootOrderAttributes);
+
+
   // Get required restart priviledges
   SetPrivilege(GetCurrentProcess(), SE_SHUTDOWN_NAME, TRUE);
   InitiateSystemShutdownEx(NULL, NULL, 2, FALSE, TRUE, 0);
