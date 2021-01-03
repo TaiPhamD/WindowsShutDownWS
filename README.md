@@ -1,5 +1,5 @@
 # WindowsShutDownWS
-This WebService will host an endpoint locally on the computer to listen for an HTTP request/post to initiate windows shutdown or restart (including changing UEFI BootOrder id). A good example would to use IFTTT webhook to trigger an HTTP post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL.
+This WebService will host an endpoint locally on the computer to listen for an HTTPS request/post to initiate windows shutdown or restart (including changing UEFI BootOrder id). A good example would to use IFTTT webhook to trigger an HTTPS post after receiving a Google Assistant or Alexa command. The shutdown process is done by calling the windows shutdown procedure via a windows DLL.
 
 Currently the restart command will change UEFI BootOrder ID based on Google Assistant Ingredient. The mapping of the Ingrediant and BootOrder ID is based on config.json. You can run uefiscanner.exe to figure out your BootOrderID and use decimal ID (not hex) when configuring JSON. You can also use Linux efibootmgr --verbose to figure out your bootID however remember to convert to Decimal from hex.
 
@@ -25,7 +25,7 @@ Binary link:
    - Check out info.log file from path defined in 1. for logging and trouble shooting
 # Testing before you connect to IFTTT service
 
-Send http request to YOURIP:YOURPORT with the body as JSON
+Send https request to YOURIP:YOURPORT with the body as JSON
 
 ```
 {
