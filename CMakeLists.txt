@@ -7,7 +7,4 @@ include(CPack)
 
 add_subdirectory("shutdownDLL")
 add_subdirectory("shutdownWS")
-
-
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist )
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist )
+add_subdirectory("uefiscanner")

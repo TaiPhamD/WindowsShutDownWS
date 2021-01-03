@@ -3,16 +3,18 @@
 
 #include <windows.h>
 #include <iomanip>
+#include <iostream>
 //#pragma comment(lib, "user32.lib")
 //#pragma comment(lib, "advapi32.lib")
 
-
-struct CloseHandleHelper {
+struct CloseHandleHelper
+{
   void operator()(void *p) const { CloseHandle(p); }
 };
 
 /** Function to obtain required priviledges to issue shutdown or restart**/
-BOOL SetPrivilege(HANDLE process, LPCWSTR name, BOOL on) {
+BOOL SetPrivilege(HANDLE process, LPCWSTR name, BOOL on)
+{
   HANDLE token;
   if (!OpenProcessToken(process, TOKEN_ADJUST_PRIVILEGES, &token))
     return FALSE;
@@ -26,15 +28,16 @@ BOOL SetPrivilege(HANDLE process, LPCWSTR name, BOOL on) {
 }
 
 /**Shutdown function**/
-void startShutdown() {
+void startShutdown()
+{
   // Get required shutdown priviledges
   SetPrivilege(GetCurrentProcess(), SE_SHUTDOWN_NAME, TRUE);
   // Go ahead and shut down
   InitiateSystemShutdownEx(NULL, NULL, 0, FALSE, FALSE, 0);
-
 }
 
-void changeBootAndRestart(uint16_t *data) {
+void changeBootAndRestart(uint16_t *data)
+{
 
   // Get required UEFI write priviledges
   SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
@@ -46,30 +49,31 @@ void changeBootAndRestart(uint16_t *data) {
                                  // VARIABLE_ATTRIBUTE_BOOTSERVICE_ACCESS |
                                  // VARIABLE_ATTRIBUTE_RUNTIME_ACCESS
 
-  SetFirmwareEnvironmentVariableEx(bootOrderName, 
-                                   globalGuid, 
+  SetFirmwareEnvironmentVariableEx(bootOrderName,
+                                   globalGuid,
                                    data,
                                    bootOrderBytes,
                                    bootOrderAttributes);
-    // Get required restart priviledges
+  // Get required restart priviledges
   SetPrivilege(GetCurrentProcess(), SE_SHUTDOWN_NAME, TRUE);
   InitiateSystemShutdownEx(NULL, NULL, 2, FALSE, TRUE, 0);
 }
 
-extern "C" {
-    __declspec(dllexport) bool MySystemShutdown() 
-    {
-            // we are just doign a normal shutdown
-            startShutdown();
-          // shutdown was successful
-          return TRUE;
-    }
+extern "C"
+{
+  __declspec(dllexport) bool MySystemShutdown()
+  {
+    // we are just doign a normal shutdown
+    startShutdown();
+    // shutdown was successful
+    return TRUE;
+  }
 
-    __declspec(dllexport) bool MySystemRestart(uint16_t *data)
-    {
-        // we are just doign a normal shutdown
-        changeBootAndRestart(data);
-        // shutdown was successful
-        return TRUE;
-    }
+  __declspec(dllexport) bool MySystemRestart(uint16_t *data)
+  {
+    // we are just doign a normal shutdown
+    changeBootAndRestart(data);
+    // shutdown was successful
+    return TRUE;
+  }
 }

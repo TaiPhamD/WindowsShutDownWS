@@ -1,0 +1,6 @@
+{
+   "Password": "Mycool Password",
+   "Port": "9999",
+   "BootID": [{"Windows":128},
+              {"Mac OS":129}]
+}
