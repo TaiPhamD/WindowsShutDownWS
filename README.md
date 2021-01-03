@@ -58,3 +58,4 @@ Please read from www.ifttt.com to learn more about IFTTT.  Some examples of inte
 
 1. Open cmd.exe
 1. run build.bat from this source folder
+1. The compiled binaries should be in build/dist
