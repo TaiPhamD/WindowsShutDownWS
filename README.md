@@ -12,7 +12,7 @@ Binary link:
 
 1. Run git-bash and [generate self-sign cert](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/genreate_self_cert.txt) for HTTPS.
 
-1. Run [examples\create_service_example.bat](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/create_service_example.bat) to generate windows service to run this web service application
+1. Run [examples\create_service_example.bat](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/create_service_example.bat) to generate windows service to run this web service application. Must run with administrative command prompt.
 
 1. Create a config.json and place it in the same folder as 1. above. You can see [examples\config_example.json](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/config_example.json) on the formatting
 
