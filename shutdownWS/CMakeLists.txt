@@ -5,7 +5,7 @@ file(COPY ${GO_SOURCE}
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 configure_file(${CMAKE_SOURCE_DIR}/examples/config_example.txt
-              ${CMAKE_BINARY_DIR}/dist/config.txt  COPYONLY)  
+              ${CMAKE_BINARY_DIR}/dist/config.txt)  
 
 # Custom go install 3rd party "Service" lib and build command              
 add_custom_command(OUTPUT golang_build.out

@@ -72,8 +72,12 @@ func (p *program) run() {
 	defer shutdown.Release()
 	ShutDownFunc = shutdown.MustFindProc("MySystemShutdown")
 	RestartFunc = shutdown.MustFindProc("MySystemRestart")
-
-	err = http.ListenAndServe(":"+MyPort, shutdownHandler{})
+	log.Print("Using cert at : " + dir + "\\cert.pem")
+	err = http.ListenAndServeTLS(":"+MyPort, dir+"\\cert.pem", dir+"\\key.pem", shutdownHandler{})
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+	log.Print("Sucecssfully hosted server on: " + MyPort)
 }
 func (p *program) Stop(s service.Service) error {
 	// Stop should not block. Return with a few seconds.
