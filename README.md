@@ -56,5 +56,5 @@ Please read from www.ifttt.com to learn more about IFTTT.  Some examples of inte
 ## Manual compile/install
 
 
-1. Open Visual Studio Community CLI (so that the command prompt knows about MSBUILD.exe path)
+1. Open cmd.exe
 1. run build.bat from this source folder
