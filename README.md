@@ -10,15 +10,19 @@ Binary link:
 
 1. copy the zip content for example to C:\shutdown_server
 
-1. Run examples\create_service_example.bat to generate windows service to run this web service application
+1. Run git-bash and [generate self-sign cert](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/genreate_self_cert.txt) for HTTPS.
+
+1. Run [examples\create_service_example.bat](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/create_service_example.bat) to generate windows service to run this web service application
 
 1. Create a config.json and place it in the same folder as 1. above. You can see [examples\config_example.json](https://github.com/TaiPhamD/WindowsShutDownWS/blob/master/examples/config_example.json) on the formatting
+
 
 1. must configure windows firewall to allow ```your_folder\shutdownWS.exe``` to listen on the port
 
 1. Must configure your router to forward the port to your computer
 
-
+1. Open windows services and find "ShutDownWebServer" service to start it
+   - Check out info.log file from path defined in 1. for logging and trouble shooting
 # Testing before you connect to IFTTT service
 
 Send http request to YOURIP:YOURPORT with the body as JSON
