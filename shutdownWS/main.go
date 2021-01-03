@@ -22,6 +22,7 @@ var ShutDownFunc *syscall.Proc
 var RestartFunc *syscall.Proc
 
 var logger service.Logger
+var rootDir string
 
 type AuthStruct struct {
 	Password   *string
@@ -44,12 +45,24 @@ var myConfig ConfigData
 
 func main() {
 
-	//config.txt first line is password
-	// second line is web service port
+	//Get file path from where the exe is launched
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Print(dir)
+	rootDir = dir
+	//set up log file
+	filelog, errlog := os.OpenFile(dir+"\\info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if errlog != nil {
+		log.Fatal(errlog)
+	}
+	defer filelog.Close()
+	log.SetOutput(filelog)
 
 	svcConfig := &service.Config{
-		Name:        "ShutDownWSListener",
-		DisplayName: "ShutDownWSListener",
+		Name:        "ShutdownWebService",
+		DisplayName: "ShutdownWebService",
 		Description: "Shutdown Webservice Listener",
 	}
 
@@ -67,10 +80,10 @@ func main() {
 		logger.Error(err)
 	}
 
-	log.Print("Started service\n")
 }
 
 func (p *program) Stop(s service.Service) error {
+	log.Print("Stopped Shutdown service\n")
 	// Stop should not block. Return with a few seconds.
 	return nil
 }
@@ -82,25 +95,9 @@ func (p *program) Start(s service.Service) error {
 }
 
 func (p *program) run() {
-	//Get file path from where the exe is launched
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Print(dir)
-
-	//set up log file
-	filelog, errlog := os.OpenFile(dir+"\\info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	if errlog != nil {
-		log.Fatal(errlog)
-	}
-
-	defer filelog.Close()
-
-	log.SetOutput(filelog)
-
 	//Read in configuration file
-	jsonFile, err := os.Open(dir + "\\config.json")
+	log.Print("Started Shutdown service from: " + rootDir + "\n")
+	jsonFile, err := os.Open(rootDir + "\\config.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,12 +113,13 @@ func (p *program) run() {
 	defer shutdown.Release()
 	ShutDownFunc = shutdown.MustFindProc("MySystemShutdown")
 	RestartFunc = shutdown.MustFindProc("MySystemRestart")
-	log.Print("Using cert at : " + dir + "\\cert.pem")
-	err = http.ListenAndServeTLS(":"+myConfig.Port, dir+"\\cert.pem", dir+"\\key.pem", shutdownHandler{})
+	log.Print("Using cert at : " + rootDir + "\\cert.pem")
+	log.Print("Hosting service on port: " + myConfig.Port)
+	err = http.ListenAndServeTLS(":"+myConfig.Port, rootDir+"\\cert.pem", rootDir+"\\key.pem", shutdownHandler{})
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
-	log.Print("Sucecssfully hosted server on: " + myConfig.Port)
+
 }
 
 func (h shutdownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

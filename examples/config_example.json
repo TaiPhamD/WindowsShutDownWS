@@ -1,6 +1,8 @@
 {
-   "Password": "Mycool Password",
+   "Password": "MycoolPassword",
    "Port": "9999",
-   "BootID": [{"Windows":128},
-              {"Mac OS":129}]
+   "BootDict": [{"OS": "Windows",
+                 "BootID": 0},
+              {"OS": "Mac OS",
+               "BootID": 128}]
 }
