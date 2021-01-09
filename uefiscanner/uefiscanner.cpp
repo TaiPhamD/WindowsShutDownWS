@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <iomanip>
 
+
 struct CloseHandleHelper {
   void operator()(void *p) const { CloseHandle(p); }
 };
@@ -91,7 +92,35 @@ void printUEFI(const LPCWSTR &globalGuid) {
 }
 
 
-int main()
+void setBoot(void *data) {
+  // Get required UEFI write priviledges
+  SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
+  // Update UEFI
+  const int bootOrderBytes = 2;
+  const TCHAR bootOrderName[] = TEXT("BootOrder");
+  DWORD bootOrderAttributes = 7; // VARIABLE_ATTRIBUTE_NON_VOLATILE |
+                                 // VARIABLE_ATTRIBUTE_BOOTSERVICE_ACCESS |
+                                 // VARIABLE_ATTRIBUTE_RUNTIME_ACCESS
+
+  //Set Global UEFI GUID
+  const TCHAR globalGuid[] = TEXT("{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}");
+  SetFirmwareEnvironmentVariableEx(bootOrderName,
+                                   globalGuid,
+                                   data,
+                                   bootOrderBytes,
+                                   bootOrderAttributes);
+
+  //Set OC UEFI GUID
+  const TCHAR OCGuid[] = TEXT("{4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102}");
+  SetFirmwareEnvironmentVariableEx(bootOrderName,
+                                   OCGuid,
+                                   data,
+                                   bootOrderBytes,
+                                   bootOrderAttributes);  
+}
+
+
+int main(int argc, char *argv[])
 {
 
   SetPrivilege(GetCurrentProcess(), SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
@@ -113,7 +142,21 @@ int main()
   //Print boot info for OC UEFI GUID
   //{ 0x4D1FDA02, 0x38C7, 0x4A6A, { 0x9C, 0xC6, 0x4B, 0xCC, 0xA8, 0xB3, 0x01, 0x02 }};
   std::cout << "OC Boot GUID" << std::endl;
-  printUEFI(TEXT("{4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102}"));    
+  printUEFI(TEXT("{4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102}"));  
+
+
+  if(argc > 1){
+    std::istringstream ss(argv[1]);
+    uint16_t boot_id;
+    if (!(ss >> boot_id)) {
+      std::cerr << "Invalid bootid: " << argv[1] << '\n';
+      return TRUE;
+    } else if (!ss.eof()) {
+      std::cerr << "Trailing characters after number: " << argv[1] << '\n';
+      return TRUE;
+    }
+    setBoot(&boot_id); 
+  } 
 
   // shutdown was successful
   return TRUE;
